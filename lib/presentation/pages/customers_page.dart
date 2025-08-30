@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart';class CustomersPage extends StatelessWidget{const CustomersPage({super.key});@override Widget build(BuildContext c)=>Scaffold(appBar: AppBar(title: const Text('مشتریان')),body: const Center(child: Text('CRM — نسخه دمو')));}

@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart';class InventoryPage extends StatelessWidget{const InventoryPage({super.key});@override Widget build(BuildContext c)=>Scaffold(appBar: AppBar(title: const Text('انبار')),body: const Center(child: Text('مدیریت انبار — نسخه دمو')));}

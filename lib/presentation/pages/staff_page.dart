@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart';class StaffPage extends StatelessWidget{const StaffPage({super.key});@override Widget build(BuildContext c)=>Scaffold(appBar: AppBar(title: const Text('کارکنان')),body: const Center(child: Text('شیفت‌بندی/کمیسیون — نسخه دمو')));}

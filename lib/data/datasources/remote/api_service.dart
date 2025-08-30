@@ -1,0 +1,1 @@
+class MockApiService{final Map<String,List<Map<String,dynamic>>> _store={'customers':[],'appointments':[],'services':[],'orders':[],};Future<void> push(String entity,Map<String,dynamic> payload) async{await Future.delayed(Duration(milliseconds:300));_store.putIfAbsent(entity,()=>[]);_store[entity]!.add(payload);}}

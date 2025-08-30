@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart';class BranchesPage extends StatelessWidget{const BranchesPage({super.key});@override Widget build(BuildContext c)=>Scaffold(appBar: AppBar(title: const Text('شعب')),body: const Center(child: Text('مدیریت چند شعبه — نسخه دمو')));}

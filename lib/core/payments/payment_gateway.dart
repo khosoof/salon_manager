@@ -1,0 +1,1 @@
+abstract class PaymentGateway{Future<PaymentResult> pay({required int amountRials,required String orderId,String? callbackUrl});}class PaymentResult{final bool success;final String? trackingCode;final String? message;PaymentResult.success(this.trackingCode):success=true,message=null;PaymentResult.failure(this.message):success=false,trackingCode=null;}

@@ -1,0 +1,1 @@
+import 'package:flutter_test/flutter_test.dart';import 'package:salon_manager/core/utils/formatters.dart';void main(){test('formatCurrency IRR',(){final s=formatCurrency(123456,currency:'IRR');expect(s.contains('123,456'),true);});}

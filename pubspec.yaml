@@ -1,0 +1,60 @@
+name: salon_manager
+description: Salon management app (Flutter + Drift + Riverpod + go_router)
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.22.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # روتینگ
+  go_router: ^14.8.1
+
+  # مدیریت وضعیت
+  flutter_riverpod: ^2.6.1
+
+  # شبکه
+  dio: ^5.5.0
+
+  # دیتابیس (Drift) — روی وب از IndexedDB استفاده می‌کنیم
+  drift: ^2.17.0
+  path: ^1.9.0
+  path_provider: ^2.1.4
+
+  # بومی‌سازی/ترجمه و تاریخ/اعداد
+  easy_localization: ^3.0.7
+  intl: ^0.20.2
+
+  # اسکن (روی وب با شرط kIsWeb غیرفعال کردیم)
+  mobile_scanner: ^6.0.0
+
+  # آیکون‌های پیش‌فرض
+  cupertino_icons: ^1.0.6
+  fl_chart: ^1.0.0
+  flutter_local_notifications: ^19.4.1
+  shared_preferences: ^2.5.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+  # کدجن دیتابیس Drift
+  build_runner: ^2.4.11
+  drift_dev: ^2.17.0
+
+  # (اختیاری) برای گلدن‌تست‌ها
+  golden_toolkit: ^0.15.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/i18n/

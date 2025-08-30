@@ -1,0 +1,1 @@
+import 'package:flutter/material.dart';class ReportsPage extends StatelessWidget{const ReportsPage({super.key});@override Widget build(BuildContext c)=>Scaffold(appBar: AppBar(title: const Text('گزارش‌ها')),body: const Center(child: Text('نمودارها/خروجی — نسخه دمو')));}

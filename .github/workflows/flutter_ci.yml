@@ -1,0 +1,16 @@
+name: Flutter CI
+on: { push: { branches: [ main ] }, pull_request: {} }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { channel: 'stable' }
+      - run: flutter --version
+      - run: flutter pub get
+      - run: flutter test
+      - run: dart run build_runner build --delete-conflicting-outputs
+      - run: flutter build apk --dart-define=FLAVOR=dev
+      - uses: actions/upload-artifact@v4
+        with: { name: app-apk, path: build/app/outputs/flutter-apk/app-release.apk }
