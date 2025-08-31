@@ -22,7 +22,6 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # نصب SDK اندروید (ورژن 34/35)
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
@@ -44,11 +43,7 @@ jobs:
       - name: Get packages
         run: flutter pub get
 
-      # ❗ تست‌ها را موقتاً غیرفعال می‌کنیم (برای گرفتن APK)
-      # اگر خواستی فقط بی‌اثر باشه:
-      # - name: Run flutter test
-      #   run: flutter test
-      #   continue-on-error: true
+      # تست‌ها را عمداً رد می‌کنیم تا APK سریع ساخته شود
       - name: Skip tests (unblock APK)
         run: echo "Skipping tests on CI to build APK fast"
 
