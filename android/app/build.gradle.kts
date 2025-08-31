@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    // این خط حتماً باید باشد
+    id("dev.flutter.flutter-gradle-plugin")
 }
 
 android {
@@ -18,19 +20,14 @@ android {
 
     buildTypes {
         release {
-            // برای الان بدون امضا
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
-        debug {
-            // تنظیم خاص لازم نیست
-        }
     }
 
-    // این دو بلاک برای JDK 17 ضروری‌اند
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
