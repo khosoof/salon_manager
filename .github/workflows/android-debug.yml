@@ -1,16 +1,15 @@
 name: Android Debug APK
-
 on:
   workflow_dispatch:
 
 jobs:
   build-debug:
     runs-on: ubuntu-latest
-
     env:
       PUB_HOSTED_URL: https://pub.dev
       FLUTTER_STORAGE_BASE_URL: https://storage.googleapis.com
       ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+      CI: "true"
 
     steps:
       - name: Checkout
@@ -25,7 +24,7 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Install Android packages
+      - name: Accept licenses & install packages
         run: |
           yes | sdkmanager --licenses
           sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0" || true
@@ -37,21 +36,18 @@ jobs:
           channel: stable
           flutter-version: '3.35.2'
 
-      - name: Flutter doctor
-        run: flutter doctor -v
+      - name: flutter --version
+        run: flutter --version
 
-      - name: Get packages
+      - name: Flutter pub get
         run: flutter pub get
 
-      # تست‌ها را عمداً رد می‌کنیم تا APK سریع ساخته شود
-      - name: Skip tests (unblock APK)
-        run: echo "Skipping tests on CI to build APK fast"
+      # اگر build_runner لازم نیست، حذفش نگه داشتیم که اجرا نشه
+      # - name: Generate code (build_runner)
+      #   run: dart run build_runner build --delete-conflicting-outputs
 
-      - name: Generate code (build_runner)
-        run: dart run build_runner build --delete-conflicting-outputs
-
-      - name: Build Debug APK
-        run: flutter build apk --debug --dart-define=FLAVOR=dev
+      - name: Build Debug APK (verbose)
+        run: flutter build apk --debug -v --dart-define=FLAVOR=dev
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
