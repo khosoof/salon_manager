@@ -1,4 +1,4 @@
-﻿pluginManagement {
+pluginManagement {
     def flutterSdkPath = System.getenv("FLUTTER_HOME") ?: System.properties.get("flutter.sdk")
     if (flutterSdkPath == null) {
         def props = new Properties()
