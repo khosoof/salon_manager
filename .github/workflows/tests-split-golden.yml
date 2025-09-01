@@ -1,0 +1,32 @@
+﻿name: Tests (split golden)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  tests-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter --version
+      - run: flutter pub get
+      # همه تست‌ها به جز گلدن
+      - run: flutter test -r expanded --concurrency=1 --exclude-tags golden
+
+  golden-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - run: flutter --version
+      - run: flutter pub get
+      # فقط تست‌های گلدن؛ اگر خواستی دقیق‌تر همین فایل‌ها رو صدا بزنه:
+      # - run: flutter test -r expanded --concurrency=1 -t golden test/golden/dashboard_golden_test.dart
+      - run: flutter test -r expanded --concurrency=1 -t golden
