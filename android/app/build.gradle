@@ -1,0 +1,45 @@
+﻿plugins {
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id "dev.flutter.flutter-gradle-plugin"
+}
+
+android {
+    namespace "com.example.salon_manager"
+    compileSdk 35
+
+    defaultConfig {
+        applicationId "com.example.salon_manager"
+        minSdk 23
+        targetSdk 35
+        versionCode 1
+        versionName "1.0.0"
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        release {
+            // تا وقتی keystore آماده نشده از debug برای signing استفاده می‌کنیم
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+            shrinkResources false
+            // اگر خواستی ProGuard فعال شود، خط زیر را از حالت توضیح خارج کن:
+            // proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        }
+        debug {
+            debuggable true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+dependencies {
+    implementation "androidx.multidex:multidex:2.0.1"
+}
