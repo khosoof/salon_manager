@@ -5,29 +5,27 @@ plugins {
 }
 
 android {
-    namespace "com.example.salon_manager"   // با package در Manifest یکی باشد
-    compileSdk 35
+    namespace = "com.example.salon_manager"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId "com.example.salon_manager"
-        minSdk 23
-        targetSdk 35
-        versionCode 1
-        versionName "1.0.0"
-        multiDexEnabled true
+        applicationId = "com.example.salon_manager"
+        minSdk = 23
+        targetSdk = 35
+        versionCode = 1
+        versionName = "1.0.0"
+        multiDexEnabled = true
     }
 
     buildTypes {
-        release {
-            // فعلاً برای ساخت دمو، امضا را دیباگ می‌گذاریم
-            signingConfig signingConfigs.debug
-            minifyEnabled false
-            shrinkResources false
+        getByName("release") {
+            isMinifyEnabled = false
+            isShrinkResources = false
+            signingConfig = signingConfigs.getByName("debug") // برای بیلد سریع
         }
-        debug { }
     }
 }
 
 dependencies {
-    implementation "androidx.multidex:multidex:2.0.1"
+    implementation("androidx.multidex:multidex:2.0.1")
 }
