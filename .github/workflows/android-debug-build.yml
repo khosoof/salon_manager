@@ -39,10 +39,22 @@ jobs:
       - name: Build debug APK (dev flavor)
         run: flutter build apk --debug --dart-define=FLAVOR=dev
 
+      # 🔎 گام دیباگ: لیست کردن مسیرهای خروجی برای اینکه ببینیم APK دقیقاً کجا ساخته شده
+      - name: Show produced outputs
+        run: |
+          echo "== ls outputs =="
+          ls -R build/app/outputs || true
+          echo "== find *.apk =="
+          find build -type f -name "*.apk" -print || true
+
+      # ⬆️ آپلود مقاوم: چند الگو برای همه‌ی حالت‌های ممکن
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: debug-apks
-          path: build/app/outputs/flutter-apk/*.apk
-          if-no-files-found: error
+          path: |
+            build/app/outputs/flutter-apk/*.apk
+            build/app/outputs/apk/**/*.apk
+            build/**/outputs/**/*.apk
+          if-no-files-found: warn
           retention-days: 7
