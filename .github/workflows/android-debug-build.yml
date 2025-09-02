@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Setup Java 17
         uses: actions/setup-java@v4
@@ -24,51 +24,47 @@ jobs:
         with:
           channel: stable
 
-      - name: Flutter doctor (diagnostics)
+      - name: flutter doctor
         run: flutter doctor -v
 
-      # ساخت با لاگ Verbose و ذخیره در build.log
       - name: Build debug APK (dev flavor)
         run: |
           set -e
           flutter pub get
-          flutter build apk --debug -v --dart-define=FLAVOR=dev | tee build.log
+          flutter build apk --debug -v --dart-define=FLAVOR=dev
 
-      # استخراج مسیر APK از لاگ؛ اگر خالی بود، با find جست‌وجو می‌کنیم
-      - name: Detect APK path
-        id: detect
-        shell: bash
+      # هر APK زیر build/ را جمع می‌کنیم
+      - name: Collect APKs
         run: |
           set -e
-          APK_FROM_LOG=$(sed -nE 's/.*Built (.*\.apk).*/\1/p' build.log | tail -n1)
-          if [ -n "$APK_FROM_LOG" ] && [ -f "$APK_FROM_LOG" ]; then
-            echo "apk_path=$APK_FROM_LOG" >> "$GITHUB_OUTPUT"
-            echo "Found via log: $APK_FROM_LOG"
-            exit 0
+          mkdir -p artifacts
+          found=false
+          # همه‌ی .apk‌ها را پیدا و در artifacts کپی کن
+          while IFS= read -r -d '' f; do
+            found=true
+            echo "Copying $f"
+            cp -v "$f" "artifacts/$(basename "$f")"
+          done < <(find build -type f -name "*.apk" -print0)
+          if [ "$found" = false ]; then
+            echo "❌ No APKs found under build/"
+            echo "== quick tree =="
+            find build -maxdepth 4 -type d -print || true
+            exit 2
           fi
-          echo "Log didn’t reveal a file. Fallback to find…"
-          APK_FROM_FIND=$(find build -type f -name "*.apk" | head -n1 || true)
-          if [ -n "$APK_FROM_FIND" ] && [ -f "$APK_FROM_FIND" ]; then
-            echo "apk_path=$APK_FROM_FIND" >> "$GITHUB_OUTPUT"
-            echo "Found via find: $APK_FROM_FIND"
-            exit 0
-          fi
-          echo "❌ No APK found."
-          exit 2
+          echo "✅ Collected APKs:"; ls -l artifacts
 
-      - name: Upload APK artifact
+      - name: Upload APK artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: debug-apk
-          path: ${{ steps.detect.outputs.apk_path }}
+          name: android-debug-apks
+          path: artifacts/*.apk
           if-no-files-found: error
           retention-days: 7
 
-      # برای شفافیت، کل ساختار خروجی‌ها را هم لیست می‌کنیم
-      - name: Show outputs tree
+      - name: Show outputs tree (debug)
         if: always()
         run: |
-          echo "== outputs under build =="
-          find build -maxdepth 4 -type d -print
+          echo "== dirs =="
+          find build -maxdepth 4 -type d -print || true
           echo "== apks =="
           find build -type f -name "*.apk" -print || true
